@@ -351,6 +351,22 @@ module.exports = function (grunt) {
         configFile: 'test/karma.conf.js',
         singleRun: true
       }
+    },
+
+    // Buildcontrol
+    buildcontrol: {
+      options: {
+        dir: 'dist',
+        commit: true,
+        push: true,
+        message: 'Built %sourceName% from commit %sourceCommit% on branch %sourceBranch%'
+      },
+      pages: {
+        options: {
+          remote: 'git@github.com:dasf/ois-dn4.git',
+          branch: 'gh-pages'
+        }
+      }
     }
   });
 
@@ -398,6 +414,13 @@ module.exports = function (grunt) {
     'filerev',
     'usemin',
     'htmlmin'
+  ]);
+
+  grunt.registerTask('deploy', [
+    'clean:dist',
+    'build',
+    'buildcontrol:pages',
+    'clean:dist'
   ]);
 
   grunt.registerTask('default', [
