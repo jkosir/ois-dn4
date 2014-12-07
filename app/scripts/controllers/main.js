@@ -8,11 +8,10 @@
  * Controller of the oisdn4App
  */
 angular.module('oisdn4App')
-  .controller('MainCtrl', function ($scope, ehrApi) {
+  .controller('MainCtrl', function ($scope) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
       'Karma'
     ];
-    console.log(ehrApi);
   });

@@ -13,7 +13,8 @@ angular
     'ngResource',
     'ngRoute',
     'ngTouch',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'nvd3'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -29,7 +30,8 @@ angular
         redirectTo: '/'
       });
   })
-  .run(function($rootScope){
-    $rootScope.uporabniki = ['Ferdo Sidonija', 'Mojmir Vekoslav', 'Bogomil Borka'];
+  .run(function($rootScope, ehrApi, users){
+    $rootScope.uporabniki = users;
     $rootScope.uporabnikId = 0;
+    ehrApi.generateTestData();
   });

@@ -8,7 +8,7 @@
  * Service in the oisdn4App.
  */
 angular.module('oisdn4App')
-  .service('ehrApi', function ($http, $q) {
+  .service('ehrApi', function ($http, $q, users) {
     var baseUrl = 'https://rest.ehrscape.com/rest/v1';
     var qId = $q.defer();
 
@@ -16,11 +16,35 @@ angular.module('oisdn4App')
       url: baseUrl + '/session',
       method: 'POST',
       params: {username: 'ois.seminar', password: 'ois4fri'}
-    }).success(function (data) {
-      qId.resolve(data.sessionId);
+    }).success(function (response) {
+      qId.resolve(response.sessionId);
     });
 
-    qId.promise.then(function (sessionId) {
-      console.log(sessionId);
-    });
+    this.generateTestData = function () {
+      qId.promise.then(function (sessionId) {
+        $http.defaults.headers.common['Ehr-Session'] = sessionId;
+
+        angular.forEach(users, function (uporabnik) {
+          $http({
+            url: baseUrl + '/ehr',
+            method: 'POST'
+          }).success(function (response) {
+
+            uporabnik.ehrId = response.ehrId;
+            $http({
+              url: baseUrl + '/demographics/party',
+              method: 'POST',
+              data: {
+                firstNames: uporabnik.ime,
+                lastNames: uporabnik.priimek,
+                dateOfBirth: uporabnik.datumRojstva,
+                partyAdditionalInfo: [{key: 'ehrId', value: uporabnik.ehrId}]
+              }
+            });
+
+          });
+        });
+
+      });
+    };
   });
