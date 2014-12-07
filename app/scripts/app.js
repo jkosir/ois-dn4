@@ -11,27 +11,36 @@
 angular
   .module('oisdn4App', [
     'ngResource',
-    'ngRoute',
     'ngTouch',
     'ui.bootstrap',
-    'nvd3'
+    'ui.router',
+    'nvd3',
+    'ngDialog',
+    'uiGmapgoogle-maps'
   ])
-  .config(function ($routeProvider) {
-    $routeProvider
-      .when('/', {
+  .config(function ($stateProvider, $urlRouterProvider) {
+    $urlRouterProvider.otherwise('/');
+    $stateProvider
+      .state('home', {
+        url: '/',
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .when('/about', {
+      .state('about', {
+        url: '/about',
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
-      })
-      .otherwise({
-        redirectTo: '/'
       });
+  }).config(function(uiGmapGoogleMapApiProvider){
+    uiGmapGoogleMapApiProvider.configure({
+      v: '3.17'
+    });
   })
-  .run(function($rootScope, ehrApi, users){
+  .run(function($rootScope, ehrApi, users, ngDialog){
     $rootScope.uporabniki = users;
     $rootScope.uporabnikId = 0;
-    ehrApi.generateTestData();
+    $rootScope.modal = function(){
+      ngDialog.open();
+    };
+    //ehrApi.generateTestData();
   });
