@@ -12,7 +12,8 @@ angular
   .module('oisdn4App', [
     'ngResource',
     'ngRoute',
-    'ngTouch'
+    'ngTouch',
+    'ui.bootstrap'
   ])
   .config(function ($routeProvider) {
     $routeProvider
@@ -27,4 +28,8 @@ angular
       .otherwise({
         redirectTo: '/'
       });
+  })
+  .run(function($rootScope){
+    $rootScope.uporabniki = ['Ferdo Sidonija', 'Mojmir Vekoslav', 'Bogomil Borka'];
+    $rootScope.uporabnikId = 0;
   });
