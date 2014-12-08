@@ -2,8 +2,31 @@
 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade
   your browser</a> to improve your experience.</p>
 <![endif]--> <!-- Fixed navbar --> <nav class="navbar navbar-default navbar-fixed-top" role="navigation"> <div class="container"> <div class="navbar-header"> <button type="button" class="navbar-toggle collapsed" ng-click="navbarCollapsed = !navbarCollapsed" aria-expanded="false" aria-controls="navbar"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button> <a class="navbar-brand" ui-sref="home">Zavarovalnica Pangrč Grm</a> </div> <div id="navbar" class="navbar-collapse collapse" collapse="navbarCollapsed"> <ul class="nav navbar-nav"> <li ui-sref-active="active"><a ui-sref="home">Prva stran</a></li> <li ui-sref-active="active"><a ui-sref="about">Moj račun</a></li> <li><a href ng-dialog="modalContent.html">Iskanje poslovalnic</a></li> </ul> <ul class="nav navbar-nav navbar-right"> <li class="dropdown" dropdown on-toggle="toggled(open)"> <a href class="dropdown-toggle" dropdown-toggle>Izberi uporabnika<span class="caret"></span></a> <ul class="dropdown-menu" role="menu"> <li ng-repeat="user in uporabniki" ng-class="{'active': $index == uporabnikId}"> <a href ng-bind="user.ime + ' ' + user.priimek" ng-click="$parent.uporabnikId = $index"></a> </li> </ul> </li> </ul> </div> <!--/.nav-collapse --> </div> </nav> <!-- Add your site or application content here --> <div class="container"> <div ui-view=""></div> </div> <script type="text/ng-template" id="modalContent.html"><ui-gmap-google-map center="{latitude: 46.2, longitude:15}" zoom='8'>
-    <ui-gmap-marker idKey="1" coords="{latitude: 45.771731, longitude: 15.260003}"></ui-gmap-marker>
-    <ui-gmap-marker idKey="2" coords="lokacija" ng-if="lokacija"></ui-gmap-marker>
-  </ui-gmap-google-map></script> <!--[if lt IE 9]>
+    <ui-gmap-marker idKey="1" coords="{latitude: 45.771731, longitude: 15.260003}" options="{title: 'Poslovalnica'}">
+      <ui-gmap-window>
+        <div>Poslovalnica</div>
+      </ui-gmap-window>
+    </ui-gmap-marker>
+    <ui-gmap-marker idKey="2" coords="lokacija" ng-if="lokacija">
+      <ui-gmap-window>
+        <div>Moja lokacija</div>
+      </ui-gmap-window>
+    </ui-gmap-marker>
+  </ui-gmap-google-map>
+  <a class="btn btn-primary"
+     ng-show="!lokacija"
+     target="_blank"
+     ng-href="https://maps.google.com?daddr=45.771731,15.260003"
+    >
+    Prikaži navodila za pot
+  </a>
+
+  <a class="btn btn-primary"
+     ng-show="lokacija"
+     target="_blank"
+     ng-href="https://maps.google.com?daddr=45.771731,15.260003&saddr={{lokacija.latitude}},{{lokacija.longitude}}"
+    >
+    Prikaži navodila za pot
+  </a></script> <!--[if lt IE 9]>
 <script src="scripts/oldieshim.76f279db.js"></script>
 <![endif]--> <script src="scripts/vendor.7c074cdb.js"></script> <script src="scripts/scripts.b3c5b88e.js"></script>  
