@@ -8,9 +8,9 @@
   <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
   <!-- build:css(.) styles/vendor.css -->
   <!-- bower:css -->
-  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
-  <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
-  <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
+  <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css"/>
+  <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css"/>
+  <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css"/>
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/main.css -->
@@ -66,9 +66,33 @@
 
 <script type="text/ng-template" id="modalContent.html">
   <ui-gmap-google-map center="{latitude: 46.2, longitude:15}" zoom='8'>
-    <ui-gmap-marker idKey="1" coords="{latitude: 45.771731, longitude: 15.260003}"></ui-gmap-marker>
-    <ui-gmap-marker idKey="2" coords="lokacija" ng-if="lokacija"></ui-gmap-marker>
+    <ui-gmap-marker idKey="1" coords="{latitude: 45.771731, longitude: 15.260003}" options="{title: 'Poslovalnica'}">
+      <ui-gmap-window>
+        <div>Poslovalnica</div>
+      </ui-gmap-window>
+    </ui-gmap-marker>
+    <ui-gmap-marker idKey="2" coords="lokacija" ng-if="lokacija">
+      <ui-gmap-window>
+        <div>Moja lokacija</div>
+      </ui-gmap-window>
+    </ui-gmap-marker>
   </ui-gmap-google-map>
+  <a class="btn btn-primary"
+     ng-show="!lokacija"
+     target="_blank"
+     ng-href="https://maps.google.com?daddr=45.771731,15.260003"
+    >
+    Prikaži navodila za pot
+  </a>
+
+  <a class="btn btn-primary"
+     ng-show="lokacija"
+     target="_blank"
+     ng-href="https://maps.google.com?daddr=45.771731,15.260003&saddr={{lokacija.latitude}},{{lokacija.longitude}}"
+    >
+    Prikaži navodila za pot
+  </a>
+
 </script>
 
 <!-- build:js(.) scripts/oldieshim.js -->
