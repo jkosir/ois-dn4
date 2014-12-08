@@ -14,7 +14,8 @@ angular
     'ngTouch',
     'ui.bootstrap',
     'ui.router',
-    'nvd3',
+    'highcharts-ng',
+    'geolocation',
     'ngDialog',
     'uiGmapgoogle-maps'
   ])
@@ -31,16 +32,21 @@ angular
         templateUrl: 'views/about.html',
         controller: 'AboutCtrl'
       });
-  }).config(function(uiGmapGoogleMapApiProvider){
+  }).config(function (uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
       v: '3.17'
     });
   })
-  .run(function($rootScope, ehrApi, users, ngDialog){
+  .run(function ($rootScope, ehrApi, users, geolocation) {
     $rootScope.uporabniki = users;
     $rootScope.uporabnikId = 0;
-    $rootScope.modal = function(){
-      ngDialog.open();
-    };
-    //ehrApi.generateTestData();
+
+    $rootScope.$on('ngDialog.opened', function () {
+      geolocation.getLocation().then(function (data) {
+        $rootScope.lokacija = {
+          latitude: data.coords.latitude,
+          longitude: data.coords.longitude
+        };
+      });
+    });
   });

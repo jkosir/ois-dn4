@@ -1,7 +1,12 @@
 /* GLOBAL STYLES
 -------------------------------------------------- */
-/* Padding below the footer and lighter body text */
 
+/* Always show scrollbar so there's no flickering when moving to views that don't have it*/
+html {
+  overflow-y: scroll;
+}
+
+/* Padding below the footer and lighter body text */
 body {
   padding-top: 70px;
 }
@@ -14,9 +19,11 @@ body {
   margin-bottom: 20px;
   text-align: center;
 }
+
 .marketing h2 {
   font-weight: normal;
 }
+
 .marketing .col-lg-4 p {
   margin-right: 10px;
   margin-left: 10px;
@@ -35,7 +42,6 @@ body {
   line-height: 1;
   letter-spacing: -1px;
 }
-
 
 /* RESPONSIVE CSS
 -------------------------------------------------- */
@@ -56,4 +62,12 @@ body {
 /* No outline in navbar links */
 .navbar a {
   outline: 0 none !important;
+}
+
+/* Google map */
+.angular-google-map-container {
+  height: 400px;
+}
+.ngdialog-content {
+  width: 80% !important;
 }
