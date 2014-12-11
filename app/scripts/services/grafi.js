@@ -12,20 +12,55 @@ angular.module('oisdn4App')
     pritisk: {
       options: {
         chart: {
-          type: 'bar'
+          type: 'line'
         },
         tooltip: {
           style: {
             padding: 10,
             fontWeight: 'bold'
           }
+        },
+        xAxis: {
+          type: 'datetime'
+        },
+        yAxis: {
+          title: null,
+          plotBands: [
+            {
+              color: '#d9edf7',
+              from: 70,
+              to: 90
+            },
+            {
+              color: '#dff0d8',
+              from: 90,
+              to: 120
+            },
+            {
+              color: '#fcf8e3',
+              from: 120,
+              to: 140
+            },
+            {
+              color: '#f2dede',
+              from: 140,
+              to: 190
+            }
+          ],
+          min: 70,
+          max: 190,
+          tickInterval: 10
         }
       },
-      series: [{
-        data: [10, 15, 12, 8, 7]
-      }],
+      series: [
+        {
+          name: 'Sistolični krvni tlak',
+          data: [],
+          color: '#333'
+        }
+      ],
       title: {
-        text: 'Hello'
+        text: null
       }
     }
   });

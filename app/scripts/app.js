@@ -40,7 +40,6 @@ angular
   .run(function ($rootScope, users, geolocation, ehrApi, $state) {
     $rootScope.uporabniki = users;
     $rootScope.$state = $state;
-    //ehrApi.generateTestData();
 
     $rootScope.$on('ngDialog.opened', function () {
       geolocation.getLocation().then(function (data) {

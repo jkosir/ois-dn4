@@ -23,7 +23,6 @@ angular.module('oisdn4App')
         'vital_signs/body_temperature/any_event/temperature|unit': '°C',
         'vital_signs/blood_pressure/any_event/systolic': systolicBP,
         'vital_signs/blood_pressure/any_event/diastolic': diastolicBP
-        //'vital_signs/indirect_oximetry:0/spo2|numerator': nasicenostKrviSKisikom
       };
     }
 
@@ -35,58 +34,80 @@ angular.module('oisdn4App')
       qId.resolve(response.sessionId);
     });
 
-    this.generateTestData = function () {
+    this.getBP = function (uporabnik) {
+      var qResponse = $q.defer();
       qId.promise.then(function (sessionId) {
         $http.defaults.headers.common['Ehr-Session'] = sessionId;
-        var u = users[0];
-
         $http({
+          url: baseUrl + '/view/' + uporabnik.ehrId + '/blood_pressure',
+          method: 'GET'
+        }).then(function (response) {
+          qResponse.resolve(response);
+        });
+      });
+      return qResponse.promise;
+    };
+
+    function postUserData(uporabnik) {
+      var promises = [];
+      promises.push($http({
+        url: baseUrl + '/demographics/party',
+        method: 'POST',
+        data: {
+          firstNames: uporabnik.ime,
+          lastNames: uporabnik.priimek,
+          dateOfBirth: uporabnik.datumRojstva,
+          partyAdditionalInfo: [{key: 'ehrId', value: uporabnik.ehrId}]
+        }
+      }));
+
+      var datum = new Date();
+      for (var i = 0; i < uporabnik.meritve.height.length; i++) {
+        datum.setFullYear(2014 - i);
+        promises.push($http({
           url: baseUrl + '/composition',
           method: 'POST',
           params: {
-            ehrId: u.ehrId,
+            ehrId: uporabnik.ehrId,
             templateId: 'Vital Signs',
             format: 'FLAT',
             committer: 'Milka Gorenjka'
           },
           data: predloga(
-            '2014-3-19T13:10Z',
-            u.meritve.height[0],
-            u.meritve.weight[0],
-            u.meritve.temperature[0],
-            u.meritve.systolicBP[0],
-            u.meritve.diastolicBP[0]
+            datum.toISOString(),
+            uporabnik.meritve.height[i],
+            uporabnik.meritve.weight[i],
+            uporabnik.meritve.temperature[i],
+            uporabnik.meritve.systolicBP[i],
+            uporabnik.meritve.diastolicBP[i]
           )
-        }).success(function(){
-          $http({
-            url: baseUrl + '/view/' + u.ehrId + '/blood_pressure',
-            method: 'GET'
-          });
+        }));
+      }
+      return $q.all(promises);
+    }
+
+    this.generateUsers = function () {
+      var promises = [];
+      qId.promise.then(function (sessionId) {
+        $http.defaults.headers.common['Ehr-Session'] = sessionId;
+        angular.forEach(users, function (uporabnik) {
+          promises.push($http({
+            url: baseUrl + '/ehr',
+            method: 'POST'
+          }).success(function (response) {
+            console.log(response.ehrId);
+            uporabnik.ehrId = response.ehrId;
+          }));
         });
-      });
-    };
-
-
-    this.generateUsers = function(){
-      angular.forEach(users, function (uporabnik) {
-        $http({
-          url: baseUrl + '/ehr',
-          method: 'POST'
-        }).success(function (response) {
-          console.log(response.ehrId);
-
-          uporabnik.ehrId = response.ehrId;
-          $http({
-            url: baseUrl + '/demographics/party',
-            method: 'POST',
-            data: {
-              firstNames: uporabnik.ime,
-              lastNames: uporabnik.priimek,
-              dateOfBirth: uporabnik.datumRojstva,
-              partyAdditionalInfo: [{key: 'ehrId', value: uporabnik.ehrId}]
-            }
+        $q.all(promises).then(function () {
+          angular.forEach(users, function (uporabnik) {
+            promises.push(postUserData(uporabnik));
+          });
+          $q.all(promises).then(function () {
+            console.log('All dunn!');
           });
         });
       });
     };
   });
+
