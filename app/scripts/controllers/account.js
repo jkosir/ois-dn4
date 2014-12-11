@@ -8,10 +8,7 @@
  * Controller of the oisdn4App
  */
 angular.module('oisdn4App')
-  .controller('AboutCtrl', function ($scope) {
-    $scope.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('AccountCtrl', function ($scope, grafi, users, $stateParams) {
+    $scope.uporabnik = users[$stateParams.id];
+    $scope.grafi = grafi;
   });

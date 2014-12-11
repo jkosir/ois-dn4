@@ -27,19 +27,20 @@ angular
         templateUrl: 'views/main.html',
         controller: 'MainCtrl'
       })
-      .state('about', {
-        url: '/about',
-        templateUrl: 'views/about.html',
-        controller: 'AboutCtrl'
+      .state('account', {
+        url: '/:id/account',
+        templateUrl: 'views/account.html',
+        controller: 'AccountCtrl'
       });
   }).config(function (uiGmapGoogleMapApiProvider) {
     uiGmapGoogleMapApiProvider.configure({
       v: '3.17'
     });
   })
-  .run(function ($rootScope, ehrApi, users, geolocation) {
+  .run(function ($rootScope, users, geolocation, ehrApi, $state) {
     $rootScope.uporabniki = users;
-    $rootScope.uporabnikId = 0;
+    $rootScope.$state = $state;
+    //ehrApi.generateTestData();
 
     $rootScope.$on('ngDialog.opened', function () {
       geolocation.getLocation().then(function (data) {

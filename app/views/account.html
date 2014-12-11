@@ -1,0 +1,32 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">{{uporabnik.ime}} {{uporabnik.priimek}}</h3>
+      </div>
+      <div class="panel-body">
+        <div class="col-md-12" style="text-align: center">
+          <img ng-src="{{uporabnik.slika}}" class="img-circle" alt="slika">
+        </div>
+        <div class="col-md-12" style="margin-top: 20px">
+          <table class="table">
+            <tr>
+              <th>Spol</th>
+              <td>Moški</td>
+            </tr>
+            <tr>
+              <th>Datum rojstva</th>
+              <td>{{uporabnik.datumRojstva|date}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<div style="width: 400px; height: 200px">
+  <highchart id="pritisk" config="grafi.pritisk"></highchart>
+</div>
