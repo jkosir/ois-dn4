@@ -39,9 +39,9 @@ angular
     });
   }).config(function (OAuthProvider) {
     OAuthProvider.setPublicKey('Zcy9H_R3eAhBKyDr1sO_db3wLcA');
-    OAuthProvider.setHandler('strava', function (OAuthData, StravaApi) {
+    OAuthProvider.setHandler('strava', ['OAuthData', 'StravaApi', function (OAuthData, StravaApi) { // ng-annotate doesn't pick up this one
       StravaApi.qAPI.resolve(OAuthData.result);
-    });
+    }]);
   })
   .run(function ($rootScope, users, geolocation, ehrApi, $state, StravaApi) {
     $rootScope.uporabniki = users;
