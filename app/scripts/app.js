@@ -17,7 +17,8 @@ angular
     'highcharts-ng',
     'geolocation',
     'ngDialog',
-    'uiGmapgoogle-maps'
+    'uiGmapgoogle-maps',
+    'oauth.io'
   ])
   .config(function ($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/');
@@ -36,10 +37,16 @@ angular
     uiGmapGoogleMapApiProvider.configure({
       v: '3.17'
     });
+  }).config(function (OAuthProvider) {
+    OAuthProvider.setPublicKey('Zcy9H_R3eAhBKyDr1sO_db3wLcA');
+    OAuthProvider.setHandler('strava', function (OAuthData, StravaApi) {
+      StravaApi.qAPI.resolve(OAuthData.result);
+    });
   })
-  .run(function ($rootScope, users, geolocation, ehrApi, $state) {
+  .run(function ($rootScope, users, geolocation, ehrApi, $state, StravaApi) {
     $rootScope.uporabniki = users;
     $rootScope.$state = $state;
+    $rootScope.strava = StravaApi;
 
     $rootScope.$on('ngDialog.opened', function () {
       geolocation.getLocation().then(function (data) {

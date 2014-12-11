@@ -19,7 +19,7 @@ angular.module('oisdn4App')
           scatter: {
             tooltip: {
               headerFormat: '<b>Krvni tlak</b><br>',
-              pointFormat: '<b>Sistolični:</b> {point.x} mm Hg<br> <b>Diastolični:</b> {point.y} mm Hg <br> <b>Datum: </b> {point.datum}'
+              pointFormat: '<b>Sistolični:</b> {point.y} mm Hg<br> <b>Diastolični:</b> {point.x} mm Hg <br> <b>Datum: </b> {point.datum}'
             }
           }
         },

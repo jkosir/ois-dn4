@@ -20,6 +20,14 @@
             </tr>
           </table>
         </div>
+        <div class="col-md-12">
+          <div class="alert alert-danger" ng-show="maxPritisk > 140">
+            <strong>Imate visok krvni tlak!</strong>
+          </div>
+          <div class="alert alert-warning" ng-show="120 < maxPritisk && maxPritisk <= 140">
+            <strong>Rahlo zvišan krvni tlak</strong>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -29,8 +37,25 @@
         <h3 class="panel-title">Krvni tlak</h3>
       </div>
       <div class="panel-body">
-        <highchart id="sistolic2ni" config="grafi.tlak"></highchart>
+        <highchart id="tlak" config="grafi.tlak"></highchart>
       </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="panel" ng-class="{'panel-warning': !me, 'panel-success': me}">
+      <div class="panel-heading">
+        <h3 class="panel-title">Strava</h3>
+      </div>
+      <div class="panel-body">
+        <p>Povežite svoj STRAVA račun da pridobite dodatne ugodnosti!</p>
+        <div ng-if="!me">
+        <img src="http://strava.github.io/api/images/ConnectWithStrava.png" class="img-responsive pull-right" style="cursor: pointer" alt="Connect with strava" ng-click="strava.doAuth()"/>
+        </div>
+        <div ng-if="me">
+          <p>{{me.name}}</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
