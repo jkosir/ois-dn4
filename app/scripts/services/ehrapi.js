@@ -11,6 +11,15 @@ angular.module('oisdn4App')
   .service('ehrApi', function ($http, $q, users) {
     var baseUrl = 'https://rest.ehrscape.com/rest/v1';
     var qId = $q.defer();
+    var aql = function(uporabnik) {
+      return 'select ' +
+        'a_a/data[at0002]/events[at0003]/data[at0001]/items[at0004, \'Body weight\']/value as Body_weight, ' +
+        'a_b/data[at0001]/events[at0002]/data[at0003]/items[at0004, \'Body Height/Length\']/value as Body_Height_Length ' +
+        'from EHR[ehr_id/value = \'' + uporabnik.ehrId + '\'] ' +
+        'contains COMPOSITION a ' +
+        'contains ( OBSERVATION a_a[openEHR-EHR-OBSERVATION.body_weight.v1] and OBSERVATION a_b[openEHR-EHR-OBSERVATION.height.v1]) ' +
+        'offset 0 limit 1';
+    };
 
     function predloga(datetime, height, weight, temperature, systolicBP, diastolicBP) {
       return {
@@ -33,6 +42,21 @@ angular.module('oisdn4App')
     }).success(function (response) {
       qId.resolve(response.sessionId);
     });
+
+    this.doAQL = function(uporabnik){
+      var qResponse = $q.defer();
+      qId.promise.then(function (sessionId) {
+        $http.defaults.headers.common['Ehr-Session'] = sessionId;
+        $http({
+          url: baseUrl + '/query',
+          params: {aql: aql(uporabnik)},
+          method: 'GET'
+        }).then(function (response) {
+          qResponse.resolve(response);
+        });
+      });
+      return qResponse.promise;
+    };
 
     this.getBP = function (uporabnik) {
       var qResponse = $q.defer();

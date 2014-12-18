@@ -39,7 +39,7 @@ angular
     });
   }).config(function (OAuthProvider) {
     OAuthProvider.setPublicKey('Zcy9H_R3eAhBKyDr1sO_db3wLcA');
-    OAuthProvider.setHandler('strava', ['OAuthData', 'StravaApi', function (OAuthData, StravaApi) { // ng-annotate doesn't pick up this one
+    OAuthProvider.setHandler('strava', ['OAuthData', 'StravaApi', function (OAuthData, StravaApi) { // ng-annotate doesn't this one up
       StravaApi.qAPI.resolve(OAuthData.result);
     }]);
   })

@@ -12,6 +12,13 @@ angular.module('oisdn4App')
     $scope.uporabnik = users[$stateParams.id];
     $scope.grafi = angular.copy(grafi);
     $scope.maxPritisk = 0;
+    $scope.starost = new Date().getFullYear() - new Date($scope.uporabnik.datumRojstva).getFullYear();
+
+    ehrApi.doAQL($scope.uporabnik).then(function (response) {
+      /*jshint camelcase: false */
+      var podatki = response.data.resultSet[0];
+      $scope.itm = podatki.Body_weight.magnitude / Math.pow(podatki.Body_Height_Length.magnitude / 100, 2);
+    });
 
     ehrApi.getBP($scope.uporabnik).then(function (response) {
       angular.forEach(response.data.reverse(), function (meritev) {
