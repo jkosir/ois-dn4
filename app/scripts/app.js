@@ -25,8 +25,7 @@ angular
     $stateProvider
       .state('home', {
         url: '/',
-        templateUrl: 'views/main.html',
-        controller: 'MainCtrl'
+        templateUrl: 'views/main.html'
       })
       .state('account', {
         url: '/:id/account',

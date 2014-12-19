@@ -32,7 +32,7 @@ angular.module('oisdn4App')
     });
 
     StravaApi.me.promise.then(function (data) {
-      $scope.me = data;
+      angular.extend($scope, data);
     });
 
   });

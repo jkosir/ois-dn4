@@ -41,7 +41,7 @@
       <ul class="nav navbar-nav">
         <li ui-sref-active="active"><a ui-sref="home">Prva stran</a></li>
         <li ng-class="{'active': $state.includes('account')}"><a ui-sref="account({ id: 0 })">Moj račun</a></li>
-        <li><a href ng-dialog="modalContent.html">Iskanje poslovalnic</a></li>
+        <li><a href ng-dialog="partials/gmapModal.html">Iskanje poslovalnic</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown" dropdown on-toggle="toggled(open)">
@@ -63,36 +63,6 @@
 <div class="container">
   <div ui-view=""></div>
 </div>
-
-<script type="text/ng-template" id="modalContent.html">
-  <ui-gmap-google-map center="{latitude: 46.2, longitude:15}" zoom='8'>
-    <ui-gmap-marker idKey="1" coords="{latitude: 45.771731, longitude: 15.260003}" options="{title: 'Poslovalnica'}">
-      <ui-gmap-window>
-        <div>Poslovalnica</div>
-      </ui-gmap-window>
-    </ui-gmap-marker>
-    <ui-gmap-marker idKey="2" coords="lokacija" ng-if="lokacija">
-      <ui-gmap-window>
-        <div>Moja lokacija</div>
-      </ui-gmap-window>
-    </ui-gmap-marker>
-  </ui-gmap-google-map>
-  <a class="btn btn-primary"
-     ng-show="!lokacija"
-     target="_blank"
-     ng-href="https://maps.google.com?daddr=45.771731,15.260003"
-    >
-    Prikaži navodila za pot
-  </a>
-
-  <a class="btn btn-primary"
-     ng-show="lokacija"
-     target="_blank"
-     ng-href="https://maps.google.com?daddr=45.771731,15.260003&saddr={{lokacija.latitude}},{{lokacija.longitude}}"
-    >
-    Prikaži navodila za pot
-  </a>
-</script>
 
 <!-- build:js(.) scripts/oldieshim.js -->
 <!--[if lt IE 9]>
@@ -124,7 +94,6 @@
 
 <!-- build:js({.tmp,app}) scripts/scripts.js -->
 <script src="scripts/app.js"></script>
-<script src="scripts/controllers/main.js"></script>
 <script src="scripts/controllers/account.js"></script>
 <script src="scripts/services/ehrapi.js"></script>
 <script src="scripts/services/users.js"></script>

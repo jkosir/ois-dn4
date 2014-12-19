@@ -53,19 +53,34 @@
           <div class="panel-heading">
             <h3 class="panel-title">Strava</h3>
           </div>
-          <div class="panel-body">
+          <div class="panel-body" ng-if="!me">
             <p>Povežite svoj STRAVA račun da pridobite dodatne ugodnosti!</p>
 
-            <div ng-if="!me">
+            <div>
               <img src="http://strava.github.io/api/images/ConnectWithStrava.png" class="img-responsive pull-right"
                    style="cursor: pointer" alt="Connect with strava" ng-click="strava.doAuth()"/>
             </div>
-            <div ng-if="me">
-              <p>{{me.name}}</p>
+          </div>
+          <div class="panel-body" ng-if="me">
+            <div class="media">
+              <span class="media-left">
+                <img ng-src="{{me.avatar}}" class="img-responsive" alt="Avatar"/>
+              </span>
+
+              <div class="media-body">
+                <h3 class="media-heading">{{me.name}}</h3>
+
+                <p>{{me.location}}</p>
+              </div>
             </div>
+          </div>
+          <div class="list-group" ng-if="koms">
+            <a class="list-group-item" ng-href="http://app.strava.com/activities/{{kom.activity.id}}" target="_blank"
+               ng-repeat="kom in koms">{{kom.name}}</a>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 </div>
