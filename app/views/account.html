@@ -73,6 +73,7 @@
               </div>
             </div>
             <p class="well well-sm" style="margin-top: 5px;">Čestitamo! S svojimi športnimi aktivnostmi ste si pridobili 10% popust na vašo zavarovalno premijo!</p>
+            <p ng-show="koms && koms.length == 0">You don't seem to have any KOMs <span class="fa fa-frown-o fa-2x"></span></p>
           </div>
           <div class="list-group" ng-if="koms">
             <a class="list-group-item" ng-href="http://app.strava.com/activities/{{kom.activity.id}}" target="_blank"
