@@ -111,6 +111,7 @@ angular.module('oisdn4App')
     }
 
     this.generateUsers = function () {
+      var done = $q.defer();
       var promises = [];
       qId.promise.then(function (sessionId) {
         $http.defaults.headers.common['Ehr-Session'] = sessionId;
@@ -119,7 +120,6 @@ angular.module('oisdn4App')
             url: baseUrl + '/ehr',
             method: 'POST'
           }).success(function (response) {
-            console.log(response.ehrId);
             uporabnik.ehrId = response.ehrId;
           }));
         });
@@ -128,10 +128,11 @@ angular.module('oisdn4App')
             promises.push(postUserData(uporabnik));
           });
           $q.all(promises).then(function () {
-            console.log('All dunn!');
+            done.resolve('Done!');
           });
         });
       });
+      return done.promise;
     };
   });
 

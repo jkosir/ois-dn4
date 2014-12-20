@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css" />
   <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog.css" />
   <link rel="stylesheet" href="bower_components/ngDialog/css/ngDialog-theme-default.css" />
+  <link rel="stylesheet" href="bower_components/components-font-awesome/css/font-awesome.css" />
   <!-- endbower -->
   <!-- endbuild -->
   <!-- build:css(.tmp) styles/main.css -->
@@ -44,6 +45,9 @@
         <li><a href ng-dialog="partials/gmapModal.html">Iskanje poslovalnic</a></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li><button class="btn btn-info navbar-btn" ng-class="{'disabled': loading}" ng-click="generateUsers()">
+          Generiraj uporabnike <span ng-if="loading" class="fa fa-spinner fa-spin"></span>
+        </button></li>
         <li class="dropdown" dropdown on-toggle="toggled(open)">
           <a href class="dropdown-toggle" dropdown-toggle>Izberi uporabnika<span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">

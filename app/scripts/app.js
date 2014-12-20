@@ -43,9 +43,19 @@ angular
     }]);
   })
   .run(function ($rootScope, users, geolocation, ehrApi, $state, StravaApi) {
-    $rootScope.uporabniki = users;
-    $rootScope.$state = $state;
-    $rootScope.strava = StravaApi;
+    angular.extend($rootScope, {
+      uporabniki: users,
+      $state: $state,
+      strava: StravaApi
+    });
+
+    $rootScope.generateUsers = function(){
+      $rootScope.loading = true;
+      ehrApi.generateUsers().then(function(){
+        $rootScope.loading = false;
+        $state.reload();  // Reload page
+      });
+    };
 
     $rootScope.$on('ngDialog.opened', function () {
       geolocation.getLocation().then(function (data) {

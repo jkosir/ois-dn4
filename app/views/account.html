@@ -51,7 +51,8 @@
       <div class="col-md-offset-6 col-md-6">
         <div class="panel" ng-class="{'panel-warning': !me, 'panel-success': me}">
           <div class="panel-heading">
-            <h3 class="panel-title">Strava</h3>
+            <h3 class="panel-title" ng-if="!me">Strava</h3>
+            <h3 class="panel-title" ng-if="me">Strava - My KOMs</h3>
           </div>
           <div class="panel-body" ng-if="!me">
             <p>Povežite svoj STRAVA račun da pridobite dodatne ugodnosti!</p>
@@ -66,13 +67,12 @@
               <span class="media-left">
                 <img ng-src="{{me.avatar}}" class="img-responsive" alt="Avatar"/>
               </span>
-
               <div class="media-body">
                 <h3 class="media-heading">{{me.name}}</h3>
-
                 <p>{{me.location}}</p>
               </div>
             </div>
+            <p class="well well-sm" style="margin-top: 5px;">Čestitamo! S svojimi športnimi aktivnostmi ste si pridobili 10% popust na vašo zavarovalno premijo!</p>
           </div>
           <div class="list-group" ng-if="koms">
             <a class="list-group-item" ng-href="http://app.strava.com/activities/{{kom.activity.id}}" target="_blank"
